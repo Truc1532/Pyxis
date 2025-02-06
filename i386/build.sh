@@ -1,6 +1,6 @@
 # compiling
 echo "Compiling..."
-# nasm -f elf32 -o build/loader.o src/assembly/loader.asm
+nasm -f elf32 -o build/loader.o src/assembly/loader.asm
 gcc -m32 -o build/main.o -c src/main.c
 gcc -m32 -o build/time.o -c src/time.c
 
