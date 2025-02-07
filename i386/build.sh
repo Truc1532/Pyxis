@@ -16,11 +16,11 @@ gcc -m32 -o "build/time.o" -c "src/time.c"
 # linking
 echo "Linking..."
 gcc -m32 -r "$BUILD_DIR/time.o" "$BUILD_DIR/main.o" -o "$BUILD_DIR/kernel.o"
-ld -T src/linker/linker.ld -m elf_i386 -o "$BUILD_DIR/pyxis.bin" "$BUILD_DIR/kernel.o"
+ld -T "$SRC_DIR/linker/linker.ld" -m elf_i386 -o "$BUILD_DIR/pyxis.bin" "$BUILD_DIR/loader.o" "$BUILD_DIR/kernel.o"
 
 # creating the iso
 mkdir -p isodir/boot/grub/
-cp build/pyxis.bin isodir/boot/
+cp "$BUILD_DIR/pyxis.bin" isodir/boot/
 cp grub.cfg isodir/boot/grub/
 
 grub-mkrescue -o pyxis.iso isodir/
