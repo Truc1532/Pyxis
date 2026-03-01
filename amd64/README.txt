@@ -2,7 +2,7 @@
 GCC cross compiler (x86_64-linux-gnu-gcc)
 NASM
 LD cross linker (x86_64-linux-gnu-ld)
-QEMU
+QEMU (optional)
 GRUB
 XORRISO
 
