@@ -2,11 +2,6 @@ ENTRY(_start)
 
 SECTIONS {
 	. = 0x800000;
-
-	.vectors : ALIGN(2K) {
-		KEEP(*(.vectors*))
-		. = . + 0x800;
-	}
 	
 	.text : ALIGN(4K)
 	{
