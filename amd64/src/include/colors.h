@@ -1,0 +1,5 @@
+const unsigned char blue = 0x01;
+const unsigned char green = 0x02;
+const unsigned char red = 0x04;
+const unsigned char yellow = 0x0E;
+const unsigned char gray = 0x07;
