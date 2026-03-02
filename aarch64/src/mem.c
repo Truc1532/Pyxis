@@ -1,8 +1,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "uart.h"
-#include "mem.h"
+#include "include/uart.h"
+#include "include/mem.h"
 
 extern uint8_t __heap_start[];
 extern uint8_t __heap_end[];
