@@ -1,7 +1,7 @@
 #include <stdint.h>
 
-#include "uart.h"
-#include "mem.h"
+#include "include/uart.h"
+#include "include/mem.h"
 
 void hang(void) {
 	while (1) {
