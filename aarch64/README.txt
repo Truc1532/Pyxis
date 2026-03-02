@@ -2,7 +2,7 @@
 QEMU
 GCC cross compiler (aarch64-linux-gnu-gcc)
 GAS cross compiler (aarch64-linux-gnu-as)
-LD cross compiler (aarch64-linux-gnu-ld)
+LD cross linker (aarch64-linux-gnu-ld)
 
 --BUILDING--
 First make a build dir:
