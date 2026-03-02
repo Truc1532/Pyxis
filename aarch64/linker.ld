@@ -2,6 +2,10 @@ ENTRY(_start)
 
 SECTIONS {
 	. = 0x800000;
+
+	.vectors : ALIGN(2K) {
+		*(.vectors)
+	}
 	
 	.text : ALIGN(4K)
 	{
