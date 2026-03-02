@@ -1,40 +1,40 @@
-// const UART0_BASE: usize = 0x3F201000; <- raspi3b UART base address
+#include <stdint.h>
 
-const UART0_BASE: usize = 0x0900_0000;
+// #define UART0_BASE 0x3F201000 <- raspi3b UART BASE, won't work on -M virt
 
-const UART_DR: *mut u32 = (UART0_BASE + 0x00) as *mut u32;
-const UART_FR: *const u32 = (UART0_BASE + 0x18) as *const u32;
+#define UART0_BASE 0x09000000
 
-const TXFF: u32 = 1 << 5;
+#define UART_DR ((volatile uint32_t*)(UART0_BASE + 0x00))
+#define UART_FR ((volatile uint32_t*)(UART0_BASE + 0x18))
 
-fn uart_putc(c: u8) {
-    unsafe {
-        while UART_FR.read_volatile() & TXFF != 0 {}
+void uart_putc(char c) {
+	while (*UART_FR & (1 << 5));
 
-        UART_DR.write_volatile(c as u32);
-    }
+	*UART_DR = c;
 }
 
-pub fn uart_puts(s: &str) {
-    for b in s.bytes() {
-        uart_putc(b);
-    }
-}
- 
-pub fn uart_put_ptr(ptr: *const u8) {
-    uart_putc(b'\n');
-    uart_puts("0x");
-    
-    let val = ptr as usize;
-    let mut started = false;
-
-    for shift in (0..16).rev() {
-        let digit = ((val >> (shift * 4)) & 0xF) as u8;
-        if digit != 0 || started || shift == 0 {
-            started = true;
-            uart_putc(if digit < 10 { b'0' + digit } else { b'a' + (digit - 10) });
-        }
-    }
+void uart_puts(const char *s) {
+	while (*s) {
+		uart_putc(*s++);
+	}
 }
 
+void uart_put_ptr(const void *ptr) {
+	uart_putc('\n');
+	uart_puts("0x");
 
+	uintptr_t val = (uintptr_t)ptr;
+	int started = 0;
+
+	for (int shift = 15; shift >= 0; shift--) {
+		uint8_t digit = (val >> (shift * 4)) & 0xF;
+		if (digit != 0 || started || shift == 0) {
+			started = 1;
+			if (digit < 10) {
+				uart_putc('0' + digit);
+			} else {
+				uart_putc('a' + (digit - 10));
+			}
+		}
+	}
+}
