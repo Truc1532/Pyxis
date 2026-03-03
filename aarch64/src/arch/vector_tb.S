@@ -37,7 +37,7 @@ b panic
 panic:
 	mov x0, #'E'
 	bl uart_putc
-	b panic_2
-panic_2:	
+	b panic_next
+panic_next:	
 	wfe 
-	b panic_2
+	b panic_next
