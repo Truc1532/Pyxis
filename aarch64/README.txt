@@ -1,11 +1,15 @@
 --DEPENDENCIES--
 QEMU
 GCC cross compiler (aarch64-linux-gnu-gcc)
-GAS cross compiler (aarch64-linux-gnu-as)
+RUSTC
+RUSTUP
 LD cross linker (aarch64-linux-gnu-ld)
 
 --BUILDING--
-First make a build dir:
+If not already done run:
+rustup target add aarch64-unknown-none
+
+Then make a build dir:
 mkdir build
 And run the build script:
 ./build.sh
