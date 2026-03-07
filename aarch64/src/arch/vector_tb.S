@@ -1,7 +1,11 @@
+.section .rodata
+panic_msg:
+	.asciz "REACHED EXCEPTION\r\n"
+
 .section .vectors, "ax"
-.extern uart_putc
 .align 11
 .global vectors
+.extern asm_uputs
 
 vectors:
 
@@ -34,10 +38,12 @@ b panic
 	.align 7
 .endr
 
-panic:
-	mov x0, #'E'
-	bl uart_putc
-	b panic_next
-panic_next:	
+panic:	
+	msr daifset, #0xf
+	ldr x0, =panic_msg
+	bl asm_uputs
+
+1:
 	wfe 
-	b panic_next
+	b 1b
+	
