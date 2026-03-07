@@ -22,8 +22,7 @@ pub fn uputs(s: &str) {
 }
  
 pub fn uput_ptr(ptr: *const u8) {
-    uart_putc(b'\n');
-    uart_puts("0x");
+    uputs("0x");
     
     let val = ptr as usize;
     let mut started = false;
