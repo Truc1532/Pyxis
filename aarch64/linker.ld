@@ -30,6 +30,10 @@ SECTIONS {
 		__bss_end = .;
 	}
 
+	.stack : ALIGN(16) {
+		*(.stack)
+	}
+
 	.heap : ALIGN(4K) {
 		__heap_start = .;
 		. += 64K;
