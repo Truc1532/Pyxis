@@ -25,10 +25,9 @@ hang:
 	wfe
 	b hang
 
-.section .data
+.section .stack
 
 .align 16
-.stack:	
+stack:	
 	.skip 4096
-.align 16
 stack_top:
