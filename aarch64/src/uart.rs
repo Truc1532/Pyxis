@@ -7,8 +7,7 @@ const UART_FR: *const u32 = (UART0_BASE + 0x18) as *const u32;
 
 const TXFF: u32 = 1 << 5;
 
-#[no_mangle]
-pub extern "C" fn uart_putc(c: u8) {
+fn uart_putc(c: u8) {
     unsafe {
         while UART_FR.read_volatile() & TXFF != 0 {}
 
@@ -16,13 +15,13 @@ pub extern "C" fn uart_putc(c: u8) {
     }
 }
 
-pub fn uart_puts(s: &str) {
+pub fn uputs(s: &str) {
     for b in s.bytes() {
         uart_putc(b);
     }
 }
  
-pub fn uart_put_ptr(ptr: *const u8) {
+pub fn uput_ptr(ptr: *const u8) {
     uart_putc(b'\n');
     uart_puts("0x");
     
@@ -36,6 +35,19 @@ pub fn uart_put_ptr(ptr: *const u8) {
             uart_putc(if digit < 10 { b'0' + digit } else { b'a' + (digit - 10) });
         }
     }
+
+    uart_putc(b'\n');
 }
 
+// THE FUNCTION BELOW IS NOT TO BE USED/CALLED IN RUST CODE, IT'S MADE ONLY TO WORK IN ASSEMBLY !!!!
+#[no_mangle]
+pub extern "C" fn asm_uputs(ptr: *const u8) {
+    unsafe {
+        let mut p = ptr;
+        while *p != 0 {
+            uart_putc(*p);
+            p = p.add(1);
+        }
+    }
+}
 
