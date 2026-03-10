@@ -5,6 +5,7 @@
 
 _start:
 	ldr x0, =stack_top
+	and x0, x0, #-16
 	mov sp, x0
 	
 	ldr x1, =__bss_start
