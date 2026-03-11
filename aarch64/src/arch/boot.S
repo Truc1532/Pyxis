@@ -28,7 +28,8 @@ hang:
 
 .section .stack
 
-.align 16
+.balign 16
 stack:	
-	.skip 4096
+	.skip 16834
+.balign 16
 stack_top:
