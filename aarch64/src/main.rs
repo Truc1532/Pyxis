@@ -4,7 +4,9 @@
 use core::arch::asm;
 use core::panic::PanicInfo;
 
+#[macro_use]
 mod uart;
+
 mod bump;
 mod mem;
 
@@ -16,13 +18,13 @@ extern "C" {
 
 #[no_mangle]
 pub extern "C" fn kernel_main(el: u64) -> ! {
-    uart::uput_ptr(el as *const u8);
+    uart::put_hex(el);
 
 	unsafe {
-        uart::uputs("HEAP_START: ");
-        uart::uput_ptr(&__heap_start);
-        uart::uputs("HEAP_END: ");
-        uart::uput_ptr(&__heap_end);
+        uart::puts("HEAP_START: ");
+        uart::put_ptr(&__heap_start);
+        uart::puts("HEAP_END: ");
+        uart::put_ptr(&__heap_end);
     }
 
     let mut allocator = bump::BumpAllocator {
@@ -35,8 +37,10 @@ pub extern "C" fn kernel_main(el: u64) -> ! {
     let ptr = allocator.alloc(100, 8); 
     let ptr2 = allocator.alloc(3, 8);
 
-    uart::uput_ptr(ptr);
-    uart::uput_ptr(ptr2);
+	uart::puts("FIRST ALLOC AT: ");
+    uart::put_ptr(ptr);
+	uart::puts("SECOND ALLOC AT: ");
+    uart::put_ptr(ptr2);
 
 	unsafe { 
         asm!("svc #0"); 
