@@ -30,14 +30,16 @@ SECTIONS {
 		__bss_end = .;
 	}
 
-	.stack : ALIGN(16) {
-		*(.stack)
-	}
-
 	.heap : ALIGN(4K) {
 		__heap_start = .;
 		. += 64K;
 		__heap_end = .;
+	}
+
+	.stack : ALIGN(16) {
+		stack = .;
+		. += 16K;
+		stack_top = .;
 	}
 
 }
